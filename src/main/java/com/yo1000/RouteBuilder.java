@@ -1,5 +1,7 @@
 package com.yo1000;
 
+import java.util.Stack;
+
 public class RouteBuilder {
     private final Maze maze;
 
@@ -8,8 +10,9 @@ public class RouteBuilder {
     }
 
     public Route build() {
-        Route journey = new Route();
         Route route = new Route();
+        Route journey = new Route();
+        Stack<Position> journeyStack = new Stack<>();
 
         Position start = maze.getStart();
         Position goal = maze.getGoal();
@@ -30,9 +33,19 @@ public class RouteBuilder {
             if (returning) {
                 route.cancel(current);
             } else {
-                journey.visit(current);
                 route.visit(current);
                 route.visit(prev);
+
+                if (journeyStack.contains(current)) {
+                    Position circular;
+                    do {
+                        circular = journeyStack.pop();
+                        route.cancel(circular);
+                    } while (!circular.equals(current));
+                }
+
+                journey.visit(current);
+                journeyStack.push(current);
             }
 
             prev = current;
