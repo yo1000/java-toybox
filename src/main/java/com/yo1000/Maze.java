@@ -16,7 +16,7 @@ public class Maze extends HashMap<Position, Boolean> {
 
     public void setStart(Position start) {
         this.start = start;
-        clear(start);
+        pass(start);
     }
 
     public Position getGoal() {
@@ -29,7 +29,7 @@ public class Maze extends HashMap<Position, Boolean> {
 
     public void setGoal(Position goal) {
         this.goal = goal;
-        clear(goal);
+        pass(goal);
     }
 
     @Override
@@ -37,20 +37,20 @@ public class Maze extends HashMap<Position, Boolean> {
         return containsKey(key) && super.get(key);
     }
 
-    public void fill(Position p) {
+    public void wall(Position p) {
         put(p, true);
     }
 
-    public void fill(int x, int y) {
-        fill(new Position(x, y));
+    public void wall(int x, int y) {
+        wall(new Position(x, y));
     }
 
-    public void clear(Position p) {
+    public void pass(Position p) {
         put(p, false);
     }
 
-    public void clear(int x, int y) {
-        clear(new Position(x, y));
+    public void pass(int x, int y) {
+        pass(new Position(x, y));
     }
 
     public boolean check(Position p) {

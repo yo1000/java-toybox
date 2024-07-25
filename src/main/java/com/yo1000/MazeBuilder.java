@@ -16,38 +16,38 @@ public class MazeBuilder {
     public Maze build() {
         Maze maze = new Maze();
 
-        int prev = -1;
+        int prevDirection = -1;
 
         for (int i = 0; i <= height; i++) {
             for (int j = 0; j <= width; j++) {
                 if (i == 0 || j == 0 || i == height || j == width) {
-                    maze.fill(j, i);
+                    maze.wall(j, i);
                     continue;
                 }
 
                 if (i > 0 && j > 0 && i < height && j < width && i % 2 == 0 && j % 2 == 0) {
-                    maze.fill(j, i);
+                    maze.wall(j, i);
 
                     Position p = new Position(j, i);
 
                     while (maze.check(p)) {
                         // Check that the new wall arrangement does not enclose the area on all sides.
-                        int filled = 0;
-                        if (maze.check(j - 2, i - 1)) filled++;
-                        if (maze.check(j, i - 1)) filled++;
-                        if (maze.check(j - 1, i - 2)) filled++;
-                        if (maze.check(j - 1, i)) filled++;
+                        int walled = 0;
+                        if (maze.check(j - 2, i - 1)) walled++;
+                        if (maze.check(j, i - 1)) walled++;
+                        if (maze.check(j - 1, i - 2)) walled++;
+                        if (maze.check(j - 1, i)) walled++;
 
                         // If all four sides may be enclosed, place walls on the right or bottom only.
-                        int d = r.nextInt(filled >= 3 ? 2 : 4);
+                        int direction = r.nextInt(walled >= 3 ? 2 : 4);
 
-                        while (d == prev) {
-                            d = r.nextInt(filled >= 3 ? 2 : 4);
+                        while (direction == prevDirection) {
+                            direction = r.nextInt(walled >= 3 ? 2 : 4);
                         }
 
-                        prev = d;
+                        prevDirection = direction;
 
-                        p = switch (d) {
+                        p = switch (direction) {
                             case 0 -> new Position(j + 1, i);
                             case 1 -> new Position(j, i + 1);
                             case 2 -> new Position(j - 1, i);
@@ -56,14 +56,14 @@ public class MazeBuilder {
                         };
                     }
 
-                    maze.put(p, true);
+                    maze.wall(p);
                     continue;
                 }
 
                 Position p = new Position(j, i);
 
                 if (!maze.containsKey(p)) {
-                    maze.clear(p);
+                    maze.pass(p);
                 }
             }
         }
