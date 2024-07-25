@@ -8,16 +8,12 @@ public class Drawer {
     }
 
     public void draw(Maze maze, Route route) {
-        String BLOCKED_COLOR = "";
-        String VISITED_COLOR = "\u001B[44m";
-        String RESET_COLOR = "\u001B[0m";
-
-        String SPACE = "  ";
-        String BLOCKED = BLOCKED_COLOR + "██" + RESET_COLOR;
-        String VISITED = VISITED_COLOR + "  " + RESET_COLOR;
+        String WALL = "██";
+        String PASSAGE = "  ";
+        String ROUTE = "\u001B[44m  \u001B[0m";
 
         if (showNumbers) {
-            System.out.print(SPACE);
+            System.out.print("  ");
             for (int j = 0; j <= maze.getGoal().x(); j++) {
                 System.out.print((j % 10) + " ");
             }
@@ -33,11 +29,11 @@ public class Drawer {
                 Position p = new Position(j, i);
 
                 if (maze.check(p)) {
-                    System.out.print(BLOCKED);
+                    System.out.print(WALL);
                 } else if (route.check(p)) {
-                    System.out.print(VISITED);
+                    System.out.print(ROUTE);
                 } else {
-                    System.out.print(SPACE);
+                    System.out.print(PASSAGE);
                 }
             }
             System.out.println();
