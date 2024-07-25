@@ -1,6 +1,8 @@
 package com.yo1000;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class Route extends HashMap<Position, Boolean> {
     @Override
@@ -16,19 +18,7 @@ public class Route extends HashMap<Position, Boolean> {
         return get(new Position(x, y));
     }
 
-    public void visit(int x, int y) {
-        put(new Position(x, y), true);
-    }
-
-    public void visit(Position p) {
-        put(p, true);
-    }
-
-    public void cancel(int x, int y) {
-        put(new Position(x, y), false);
-    }
-
-    public void cancel(Position p) {
-        put(p, false);
+    public static Route of(Collection<Position> positions) {
+        return positions.stream().collect(Collectors.toMap(p -> p, p -> true, (a, b) -> true, Route::new));
     }
 }
