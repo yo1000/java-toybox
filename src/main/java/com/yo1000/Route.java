@@ -18,7 +18,7 @@ public class Route extends HashMap<Point, Boolean> {
         return get(new Point(x, y));
     }
 
-    public static Route of(Collection<Point> positions) {
-        return positions.stream().collect(Collectors.toMap(p -> p, p -> true, (a, b) -> true, Route::new));
+    public static Route of(Collection<Point> points) {
+        return points.stream().collect(Collectors.toMap(p -> p, p -> true, (a, b) -> true, Route::new));
     }
 }
