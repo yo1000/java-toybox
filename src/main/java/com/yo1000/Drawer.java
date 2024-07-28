@@ -26,7 +26,7 @@ public class Drawer {
                     System.out.print((i % 10) + " ");
                 }
 
-                Position p = new Position(j, i);
+                Point p = new Point(j, i);
 
                 if (maze.check(p)) {
                     System.out.print(WALL);

@@ -1,15 +1,19 @@
 package com.yo1000;
 
+import java.security.SecureRandom;
+
 public enum Direction {
-    LEFT(new Position(-1, 0)),
-    RIGHT(new Position(1, 0)),
-    TOP(new Position(0, -1)),
-    BOTTOM(new Position(0, 1)),
+    LEFT(new Point(-1, 0)),
+    RIGHT(new Point(1, 0)),
+    TOP(new Point(0, -1)),
+    BOTTOM(new Point(0, 1)),
     ;
 
-    private final Position p;
+    private static final SecureRandom r = new SecureRandom();
 
-    Direction(Position p) {
+    private final Point p;
+
+    Direction(Point p) {
         this.p = p;
     }
 
@@ -47,5 +51,23 @@ public enum Direction {
         }
 
         throw new IllegalStateException();
+    }
+
+    public static Direction randomFromAll() {
+        return ofIndex(r.nextInt(4));
+    }
+
+    public static Direction randomFromRightOrBottom() {
+        return ofIndex(r.nextInt(2));
+    }
+
+    private static Direction ofIndex(int index) {
+        return switch (index) {
+            case 0 -> Direction.RIGHT;
+            case 1 -> Direction.BOTTOM;
+            case 2 -> Direction.LEFT;
+            case 3 -> Direction.TOP;
+            default -> throw new IllegalStateException();
+        };
     }
 }

@@ -12,13 +12,13 @@ public class RouteBuilder {
     public Route build() {
         Stack<Position> workingRoute = new Stack<>();
 
-        Position start = maze.getStart();
-        Position goal = maze.getGoal();
+        Point start = maze.getStart();
+        Point goal = maze.getGoal();
 
         Direction direction = Direction.RIGHT;
         Position current = new Position(start.x(), start.y());
 
-        while (!current.equals(goal)) {
+        while (!current.point().equals(goal)) {
             if (workingRoute.contains(current)) {
                 Position surplus;
                 do {
@@ -28,22 +28,22 @@ public class RouteBuilder {
 
             workingRoute.push(current);
 
-            Position leftHand = new Position(current.x() + direction.y(), current.y() - direction.x());
+            Position leftHand = current.toLeftHand(direction);
             if (!maze.check(leftHand)) {
                 direction = direction.turnLeft();
             }
 
-            Position next = new Position(current.x() + direction.x(), current.y() + direction.y());
-            while (maze.check(next)) {
+            Position forward = current.toForward(direction);
+            while (maze.check(forward)) {
                 direction = direction.turnRight();
-                next = new Position(current.x() + direction.x(), current.y() + direction.y());
+                forward = current.toForward(direction);
             }
 
-            current = next;
+            current = forward;
         }
 
         workingRoute.push(current);
 
-        return Route.of(workingRoute.stream().toList());
+        return Route.of(workingRoute.stream().map(Position::point).toList());
     }
 }
