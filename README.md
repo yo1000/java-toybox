@@ -1,7 +1,7 @@
 Java Maze
 ================================================================================
 
-Maze builder and left-hand rule route explorer.
+Maze builder with left-hand rule and right-hand rule route explorers.
 
 
 Requirements
