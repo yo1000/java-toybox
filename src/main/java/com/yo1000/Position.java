@@ -14,4 +14,8 @@ public record Position(
     Position toLeftHand(Direction direction) {
         return new Position(new Point(point().x() + direction.y(), point().y() - direction.x()));
     }
+
+    Position toRightHand(Direction direction) {
+        return new Position(new Point(point().x() - direction.y(), point().y() + direction.x()));
+    }
 }

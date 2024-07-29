@@ -26,9 +26,10 @@ public class Main {
         System.out.println();
 
         Maze maze = new MazeBuilder(w, h).build();
-        Route route = new RouteBuilder(maze).build();
+        Route leftHandRoute = new LeftHandRouteBuilder(maze).build();
+        Route rightHandRoute = new RightHandRouteBuilder(maze).build();
 
         Drawer drawer = new Drawer(true);
-        drawer.draw(maze, route);
+        drawer.draw(maze, leftHandRoute, rightHandRoute);
     }
 }

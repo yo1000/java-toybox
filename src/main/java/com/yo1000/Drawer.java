@@ -7,10 +7,15 @@ public class Drawer {
         this.showNumbers = showNumbers;
     }
 
-    public void draw(Maze maze, Route route) {
+    public void draw(Maze maze, Route leftHandRoute, Route rightHandRoute) {
         String WALL = "██";
         String PASSAGE = "  ";
-        String ROUTE = "\u001B[44m  \u001B[0m";
+        String ROUTE_RED = "\u001B[41m  \u001B[0m";
+        String ROUTE_GREEN = "\u001B[42m  \u001B[0m";
+        String ROUTE_YELLOW = "\u001B[43m  \u001B[0m";
+        String ROUTE_BLUE = "\u001B[44m  \u001B[0m";
+        String ROUTE_PURPLE = "\u001B[45m  \u001B[0m";
+        String ROUTE_CYAN = "\u001B[46m  \u001B[0m";
 
         if (showNumbers) {
             System.out.print("  ");
@@ -30,11 +35,28 @@ public class Drawer {
 
                 if (maze.check(p)) {
                     System.out.print(WALL);
-                } else if (route.check(p)) {
-                    System.out.print(ROUTE);
-                } else {
-                    System.out.print(PASSAGE);
+                    continue;
                 }
+
+                boolean leftCheck = leftHandRoute.check(p);
+                boolean rightCheck = rightHandRoute.check(p);
+
+                if (leftCheck && rightCheck) {
+                    System.out.print(ROUTE_PURPLE);
+                    continue;
+                }
+
+                if (leftCheck) {
+                    System.out.print(ROUTE_BLUE);
+                    continue;
+                }
+
+                if (rightCheck) {
+                    System.out.print(ROUTE_RED);
+                    continue;
+                }
+
+                System.out.print(PASSAGE);
             }
             System.out.println();
         }

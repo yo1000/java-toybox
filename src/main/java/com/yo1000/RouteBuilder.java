@@ -2,7 +2,7 @@ package com.yo1000;
 
 import java.util.Stack;
 
-public class RouteBuilder {
+public abstract class RouteBuilder {
     private final Maze maze;
 
     public RouteBuilder(Maze maze) {
@@ -28,7 +28,7 @@ public class RouteBuilder {
 
             workingRoute.push(current);
 
-            direction = updateDirectionByLeftHand(current, direction);
+            direction = updateDirectionByHandTouchingWall(current, direction);
             direction = updateDirectionByDeadEnd(current, direction);
 
             current = current.toForward(direction);
@@ -39,22 +39,11 @@ public class RouteBuilder {
         return Route.of(workingRoute.stream().map(Position::point).toList());
     }
 
-    private Direction updateDirectionByLeftHand(Position current, Direction direction) {
-        Direction workingDirection = direction;
-        Position leftHand = current.toLeftHand(workingDirection);
-        if (!maze.check(leftHand)) {
-            workingDirection = workingDirection.turnLeft();
-        }
-        return workingDirection;
+    protected Maze getMaze() {
+        return maze;
     }
 
-    private Direction updateDirectionByDeadEnd(Position current, Direction direction) {
-        Direction workingDirection = direction;
-        Position forward = current.toForward(workingDirection);
-        while (maze.check(forward)) {
-            workingDirection = workingDirection.turnRight();
-            forward = current.toForward(workingDirection);
-        }
-        return workingDirection;
-    }
+    protected abstract Direction updateDirectionByHandTouchingWall(Position current, Direction direction);
+
+    protected abstract Direction updateDirectionByDeadEnd(Position current, Direction direction);
 }
