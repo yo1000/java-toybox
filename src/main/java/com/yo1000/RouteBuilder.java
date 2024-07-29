@@ -28,22 +28,33 @@ public class RouteBuilder {
 
             workingRoute.push(current);
 
-            Position leftHand = current.toLeftHand(direction);
-            if (!maze.check(leftHand)) {
-                direction = direction.turnLeft();
-            }
+            direction = updateDirectionByLeftHand(current, direction);
+            direction = updateDirectionByDeadEnd(current, direction);
 
-            Position forward = current.toForward(direction);
-            while (maze.check(forward)) {
-                direction = direction.turnRight();
-                forward = current.toForward(direction);
-            }
-
-            current = forward;
+            current = current.toForward(direction);
         }
 
         workingRoute.push(current);
 
         return Route.of(workingRoute.stream().map(Position::point).toList());
+    }
+
+    private Direction updateDirectionByLeftHand(Position current, Direction direction) {
+        Direction workingDirection = direction;
+        Position leftHand = current.toLeftHand(workingDirection);
+        if (!maze.check(leftHand)) {
+            workingDirection = workingDirection.turnLeft();
+        }
+        return workingDirection;
+    }
+
+    private Direction updateDirectionByDeadEnd(Position current, Direction direction) {
+        Direction workingDirection = direction;
+        Position forward = current.toForward(workingDirection);
+        while (maze.check(forward)) {
+            workingDirection = workingDirection.turnRight();
+            forward = current.toForward(workingDirection);
+        }
+        return workingDirection;
     }
 }
