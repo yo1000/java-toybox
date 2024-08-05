@@ -2,12 +2,13 @@ package com.yo1000;
 
 public class Main {
     public static void main(String[] args) {
-        int w = 20;
-        int h = 10;
+        int width = 20;
+        int height = 10;
+        boolean withUnexplored = false;
 
         if (args.length >= 1) {
             try {
-                w = Integer.parseInt(args[0]);
+                width = Integer.parseInt(args[0]);
             } catch (Exception e) {
                 // NOP
             }
@@ -15,21 +16,29 @@ public class Main {
 
         if (args.length >= 2) {
             try {
-                h = Integer.parseInt(args[1]);
+                height = Integer.parseInt(args[1]);
             } catch (Exception e) {
                 // NOP
             }
         }
 
-        System.out.println("Width : " + w);
-        System.out.println("Height: " + h);
+        if (args.length >= 3) {
+            try {
+                withUnexplored = !args[2].equalsIgnoreCase("false");
+            } catch (Exception e) {
+                // NOP
+            }
+        }
+
+        System.out.println("Width : " + width);
+        System.out.println("Height: " + height);
         System.out.println();
 
-        Maze maze = new MazeBuilder(w, h).build();
+        Maze maze = new MazeBuilder(width, height).build();
         Route leftHandRoute = new LeftHandRouteBuilder(maze).build();
         Route rightHandRoute = new RightHandRouteBuilder(maze).build();
 
-        Drawer drawer = new Drawer(true);
+        Drawer drawer = new Drawer(true, withUnexplored);
         drawer.draw(maze, leftHandRoute, rightHandRoute);
     }
 }

@@ -53,6 +53,20 @@ public enum Direction {
         throw new IllegalStateException();
     }
 
+    public Direction turnBack() {
+        if (this == RIGHT) {
+            return LEFT;
+        } else if (this == BOTTOM) {
+            return TOP;
+        } else if (this == LEFT) {
+            return RIGHT;
+        } else if (this == TOP) {
+            return BOTTOM;
+        }
+
+        throw new IllegalStateException();
+    }
+
     public static Direction randomFromAll() {
         return ofIndex(r.nextInt(4));
     }

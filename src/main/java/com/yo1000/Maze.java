@@ -1,10 +1,16 @@
 package com.yo1000;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class Maze extends HashMap<Point, Boolean> {
+    private Direction initialDirection;
     private Point start;
     private Point goal;
+
+    public Direction getInitialDirection() {
+        return initialDirection;
+    }
 
     public Point getStart() {
         return start;
@@ -14,8 +20,17 @@ public class Maze extends HashMap<Point, Boolean> {
         setStart(new Point(x, y));
     }
 
+    public void setStart(int x, int y, Direction initialDirection) {
+        setStart(new Point(x, y), initialDirection);
+    }
+
     public void setStart(Point start) {
+        setStart(start, Direction.RIGHT);
+    }
+
+    public void setStart(Point start, Direction initialDirection) {
         this.start = start;
+        this.initialDirection = initialDirection;
         pass(start);
     }
 
@@ -77,22 +92,12 @@ public class Maze extends HashMap<Point, Boolean> {
         return check(position.point());
     }
 
-    public boolean beWalledOnAllSides(Cell cell) {
-        return beWalledOnAllSides(cell.point());
-    }
-
-    public boolean beWalledOnAllSides(Point point) {
-        return beWalledOnAllSides(point.x(), point.y());
-    }
-
-    public boolean beWalledOnAllSides(int x, int y) {
-        // Check that the new wall arrangement does not enclose the area on all sides.
-        int walled = 0;
-        if (check(x - 2, y - 1)) walled++;
-        if (check(x, y - 1)) walled++;
-        if (check(x - 1, y - 2)) walled++;
-        if (check(x - 1, y)) walled++;
-
-        return walled >= 3;
+    public Maze copy() {
+        return entrySet().stream()
+                .collect(Collectors.toMap(
+                        Entry::getKey,
+                        Entry::getValue,
+                        (a, b) -> a,
+                        Maze::new));
     }
 }

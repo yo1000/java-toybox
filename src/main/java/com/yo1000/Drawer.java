@@ -2,9 +2,15 @@ package com.yo1000;
 
 public class Drawer {
     private final boolean showNumbers;
+    private final boolean withUnexplored;
 
     public Drawer(boolean showNumbers) {
+        this(showNumbers, false);
+    }
+
+    public Drawer(boolean showNumbers, boolean withUnexplored) {
         this.showNumbers = showNumbers;
+        this.withUnexplored = withUnexplored;
     }
 
     public void draw(Maze maze, Route leftHandRoute, Route rightHandRoute) {
@@ -17,6 +23,17 @@ public class Drawer {
         String ROUTE_PURPLE = "\u001B[45m  \u001B[0m";
         String ROUTE_CYAN = "\u001B[46m  \u001B[0m";
 
+        if (withUnexplored) {
+            print(maze, null, null, WALL, ROUTE_PURPLE, ROUTE_BLUE, ROUTE_RED, PASSAGE);
+            System.out.println();
+        }
+
+        print(maze, leftHandRoute, rightHandRoute, WALL, ROUTE_PURPLE, ROUTE_BLUE, ROUTE_RED, PASSAGE);
+    }
+
+    private void print(
+            Maze maze, Route leftHandRoute, Route rightHandRoute,
+            String WALL, String ROUTE_BOTH, String ROUTE_LEFT_ONLY, String ROUTE_RIGHT_ONLY, String PASSAGE) {
         if (showNumbers) {
             System.out.print("  ");
             for (int j = 0; j <= maze.getGoal().x(); j++) {
@@ -38,21 +55,21 @@ public class Drawer {
                     continue;
                 }
 
-                boolean leftCheck = leftHandRoute.check(p);
-                boolean rightCheck = rightHandRoute.check(p);
+                boolean leftCheck = leftHandRoute != null && leftHandRoute.check(p);
+                boolean rightCheck = rightHandRoute != null && rightHandRoute.check(p);
 
                 if (leftCheck && rightCheck) {
-                    System.out.print(ROUTE_PURPLE);
+                    System.out.print(ROUTE_BOTH);
                     continue;
                 }
 
                 if (leftCheck) {
-                    System.out.print(ROUTE_BLUE);
+                    System.out.print(ROUTE_LEFT_ONLY);
                     continue;
                 }
 
                 if (rightCheck) {
-                    System.out.print(ROUTE_RED);
+                    System.out.print(ROUTE_RIGHT_ONLY);
                     continue;
                 }
 

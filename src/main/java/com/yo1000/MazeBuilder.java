@@ -23,19 +23,19 @@ public class MazeBuilder {
 
                 if (i > 0 && j > 0 && i < height && j < width && i % 2 == 0 && j % 2 == 0) {
                     maze.wall(j, i);
-
                     Cell cell = new Cell(j, i);
 
-                    while (maze.check(cell)) {
-                        boolean walledOnAllSides = maze.beWalledOnAllSides(cell);
+                    boolean mayBeClosedArea = mayBeClosedArea(maze.copy(), j, i);
 
-                        // If all four sides may be enclosed, place walls on the right or bottom only.
-                        Direction direction = walledOnAllSides
+                    while (maze.check(cell)) {
+                        // If there is a possibility of creating a closed area,
+                        // place walls on the right or bottom only.
+                        Direction direction = mayBeClosedArea
                                 ? Direction.randomFromRightOrBottom()
                                 : Direction.randomFromAll();
 
                         while (direction == prevDirection) {
-                            direction = walledOnAllSides
+                            direction = mayBeClosedArea
                                     ? Direction.randomFromRightOrBottom()
                                     : Direction.randomFromAll();
                         }
@@ -61,5 +61,39 @@ public class MazeBuilder {
         maze.setGoal(width, height - 1);
 
         return maze;
+    }
+
+    private static boolean mayBeClosedArea(Maze maze, int j, int i) {
+        if (maze.check(j - 1, i) && maze.check(j, i - 1)) {
+            return false;
+        }
+
+        if (maze.check(j - 1, i)) {
+            maze.setStart(j, i - 1, Direction.LEFT);
+        } else {
+            maze.setStart(j - 1, i, Direction.TOP);
+        }
+
+        return new ClosedAreaCheckRouteBuilder(maze).build().isClosed();
+    }
+
+    private static class ClosedAreaCheckRouteBuilder extends LeftHandRouteBuilder {
+        public ClosedAreaCheckRouteBuilder(Maze maze) {
+            super(maze);
+        }
+
+        @Override
+        protected boolean isRoutingFinished(Position current, Direction direction) {
+            if (!getMaze().containsKey(current.point()) || getMaze().get(current.point()) == null) {
+                return true;
+            }
+            // When route returns to starting point in reverse direction to that,
+            // closed areas has generated.
+            if (current.point().equals(getMaze().getStart())
+                    && direction == getMaze().getInitialDirection().turnBack()) {
+                return true;
+            }
+            return super.isRoutingFinished(current, direction);
+        }
     }
 }

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class Route extends HashMap<Point, Boolean> {
+    private boolean closed;
+
     @Override
     public Boolean get(Object key) {
         return containsKey(key) && super.get(key);
@@ -16,6 +18,14 @@ public class Route extends HashMap<Point, Boolean> {
 
     public boolean check(int x, int y) {
         return get(new Point(x, y));
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 
     public static Route of(Collection<Point> points) {
