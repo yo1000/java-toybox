@@ -12,16 +12,16 @@ public class MazeBuilder {
     public Maze build() {
         Maze maze = new Maze();
 
-        Direction prevDirection = null;
-
         for (int i = 0; i <= height; i++) {
+            Direction prevDirection = null;
+
             for (int j = 0; j <= width; j++) {
                 if (i == 0 || j == 0 || i == height || j == width) {
                     maze.wall(j, i);
                     continue;
                 }
 
-                if (i > 0 && j > 0 && i < height && j < width && i % 2 == 0 && j % 2 == 0) {
+                if (i > 0 && j > 0 && i % 2 == 0 && j % 2 == 0) {
                     maze.wall(j, i);
                     Cell cell = new Cell(j, i);
 
