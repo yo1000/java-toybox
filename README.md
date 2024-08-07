@@ -1,7 +1,7 @@
-Java Maze
+Java Toybox
 ================================================================================
 
-Maze builder with left-hand rule and right-hand rule route explorers.
+Toybox with assortment of Java practice exercises.
 
 
 Requirements
@@ -10,11 +10,13 @@ Requirements
 - Java 21
 
 
-How to build and start
+Maze
 --------------------------------------------------------------------------------
 
+Maze builder with left-hand rule and right-hand rule route explorers.
+
 ```bash
-./mvnw clean package && java -jar target/maze-1.0-SNAPSHOT.jar 40 20
+./mvnw clean package && java -jar maze/target/maze-1.0-SNAPSHOT.jar 40 20
 ```
 
 Demo

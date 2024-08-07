@@ -1,4 +1,4 @@
-package com.yo1000;
+package com.yo1000.toybox.maze;
 
 public class Drawer {
     private final boolean showNumbers;
