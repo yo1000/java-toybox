@@ -17,5 +17,6 @@
 
     <modules>
         <module>maze</module>
+        <module>hitnblow</module>
     </modules>
 </project>
