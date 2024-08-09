@@ -21,7 +21,7 @@ Maze builder with left-hand rule and right-hand rule route explorers.
 
 Demo
 
-![demo](./demo.gif)
+![demo_maze](./demo_maze.gif)
 
 
 Hit and Blow
@@ -50,3 +50,20 @@ hit  | 1
 blow | 0
 
 ```
+
+
+Wordle
+--------------------------------------------------------------------------------
+
+Wordle with words from the dictionary.
+
+The dictionary uses the following.<br>
+https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
+
+```bash
+./mvnw clean package && java -jar wordle/target/wordle-1.0-SNAPSHOT.jar
+```
+
+Demo
+
+![demo_wordle](./demo_wordle.gif)
