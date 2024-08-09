@@ -18,7 +18,7 @@ public class Main {
                 + System.lineSeparator()
         );
 
-        HitAndBlowChallenger counter = new HitAndBlowChallenger(secret);
+        HitAndBlowChallenger challenger = new HitAndBlowChallenger(secret);
 
         new ConsoleListener().listen(
                 input -> {
@@ -30,7 +30,7 @@ public class Main {
                     }
                 },
                 input -> {
-                    HitAndBlow hitAndBlow = counter.challenge(input);
+                    HitAndBlow hitAndBlow = challenger.challenge(input);
 
                     System.out.println("turn | " + hitAndBlow.turn());
                     System.out.println("hit  | " + hitAndBlow.hit());
