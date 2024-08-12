@@ -19,5 +19,6 @@
         <module>maze</module>
         <module>hitnblow</module>
         <module>wordle</module>
+        <module>shiritori</module>
     </modules>
 </project>

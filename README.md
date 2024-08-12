@@ -67,3 +67,27 @@ https://gist.github.com/dracos/dd0668f281e685bad51479e5acaadb93
 Demo
 
 ![demo_wordle](./demo_wordle.gif)
+
+
+Shiritori
+--------------------------------------------------------------------------------
+
+Shiritori using the given dictionary file.
+
+```bash
+./mvnw clean package && java -jar shiritori/target/shiritori-1.0-SNAPSHOT.jar
+```
+
+Demo
+
+```
+Dictionary file path is /java-toybox/shiri-dict.txt
+
+> あるてぃみしあ
+head | あ
+tail | あ
+
+< あいずおんみー
+head | あ
+tail | み
+```
