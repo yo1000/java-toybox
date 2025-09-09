@@ -12,7 +12,7 @@ public class HitAndBlowChallenger {
 
     public HitAndBlow challenge(String actuality) {
         int hit = 0;
-        int blow = 0;
+        int hitOrBlow = 0;
 
         String actuallyUnique = actuality.chars()
                 .distinct()
@@ -27,10 +27,10 @@ public class HitAndBlowChallenger {
             }
 
             if (actuallyUnique.indexOf(c) >= 0) {
-                blow++;
+                hitOrBlow++;
             }
         }
 
-        return new HitAndBlow(hit, blow - hit, count++);
+        return new HitAndBlow(hit, hitOrBlow - hit, count++);
     }
 }
