@@ -8,15 +8,18 @@ public class Main {
                 ? LengthParser.parse(args[0], 4)
                 : 4;
 
-        String secret = SecretGenerator.generate(length);
+        String test = args.length >= 2 && args[1].matches("[0-9]+")
+                ? args[1]
+                : null;
 
+        boolean testMode = test != null;
+
+        String secret = testMode ? test : SecretGenerator.generate(length);
+
+        if (testMode) System.out.println("[TEST]");
         System.out.println("Secret code is " + length + "-digits.");
-        System.out.println(secret
-                .chars()
-                .mapToObj(v -> "*")
-                .collect(Collectors.joining())
-                + System.lineSeparator()
-        );
+        System.out.println((testMode ? test : "*".repeat(secret.length()))
+                + System.lineSeparator());
 
         HitAndBlowChallenger challenger = new HitAndBlowChallenger(secret);
 
